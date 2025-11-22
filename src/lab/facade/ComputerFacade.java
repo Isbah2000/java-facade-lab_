@@ -6,6 +6,7 @@ private final HardDrive hd;
 private static final long BOOT_ADDRESS = 0x1000;
 private static final long BOOT_SECTOR = 0x2000;
 private static final int SECTOR_SIZE = 64;
+private boolean sleeping = false;
 public ComputerFacade() {
 this.cpu = new Cpu();
 this.memory = new Memory();
@@ -25,4 +26,20 @@ System.out.println("Facade: shutting down computer");
 // In a real system you'd order components gracefully
 System.out.println("Facade: power off\n");
 }
+
+public ComputerFacade(Cpu cpu, Memory memory, HardDrive hd) {
+this.cpu = cpu;
+this.memory = memory;
+this.hd = hd;
 }
+public void sleep() {
+System.out.println("Facade: saving state + lowering power");
+sleeping = true;
+System.out.println("Facade: Computer is now sleeping.\n");
+}
+public void wake() {
+if (sleeping) {
+System.out.println("Facade: restoring state + full power");
+sleeping = false;
+System.out.println("Facade: Computer is now awake.\n");
+}}}
